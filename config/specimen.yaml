@@ -1,0 +1,21 @@
+specimen:
+  cross_section_area: 50.0  # mm²
+  gauge_length: 100.0       # mm
+  material: "Steel"         # Material name (optional)
+
+calibration:
+  load_cell:
+    slope: 1000.0    # N/V (to be calibrated)
+    offset: 0.0      # N
+  displacement:
+    slope: 10.0      # mm/V (to be calibrated)
+    offset: 0.0      # mm
+
+acquisition:
+  sample_rate: 1000  # Hz (per channel)
+  buffer_size: 5000  # samples
+  board_num: 0
+  channels:
+    load: 0          # Channel for load cell
+    displacement: 1  # Channel for displacement sensor
+  voltage_range: 10  # ±10V
