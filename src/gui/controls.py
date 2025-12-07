@@ -1,5 +1,6 @@
 """Control widgets for the application."""
 
+import numpy as np
 from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QPushButton,
     QLabel, QGroupBox, QTextEdit
@@ -29,11 +30,11 @@ class ControlPanel(QWidget):
 
         self.start_btn = QPushButton("Start Test")
         self.start_btn.setStyleSheet("QPushButton { background-color: #4CAF50; color: white; font-weight: bold; padding: 10px; }")
-        self.start_btn.clicked.connect(self.start_clicked.emit)
+        self.start_btn.clicked.connect(lambda: (print("Start button clicked in ControlPanel"), self.start_clicked.emit()))
 
         self.stop_btn = QPushButton("Stop Test")
         self.stop_btn.setStyleSheet("QPushButton { background-color: #f44336; color: white; font-weight: bold; padding: 10px; }")
-        self.stop_btn.clicked.connect(self.stop_clicked.emit)
+        self.stop_btn.clicked.connect(lambda: (print("Stop button clicked in ControlPanel"), self.stop_clicked.emit()))
         self.stop_btn.setEnabled(False)
 
         session_layout.addWidget(self.start_btn)
@@ -173,7 +174,3 @@ Current Strain: {current_strain:.4f}
     def clear_analysis(self):
         """Clear analysis results."""
         self.analysis_text.clear()
-
-
-# Import numpy for the metrics display
-import numpy as np

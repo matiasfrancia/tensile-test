@@ -25,9 +25,13 @@ class MainWindow(QMainWindow):
     def __init__(self, config_path: str):
         super().__init__()
 
+        print("=== Initializing Tensile Testing Platform ===")
+
         # Load configuration
+        print(f"Loading config from: {config_path}")
         with open(config_path, 'r') as f:
             self.config = yaml.safe_load(f)
+        print("Config loaded successfully")
 
         # Initialize components
         self.calibration = CalibrationManager(self.config)
@@ -65,12 +69,16 @@ class MainWindow(QMainWindow):
         self.session_strain = []
         self.session_youngs = []
 
+        print("Initializing UI...")
         self._init_ui()
+        print("UI initialized")
 
         # Update timer for GUI refresh
+        print("Starting update timer...")
         self.update_timer = QTimer()
         self.update_timer.timeout.connect(self._update_plots)
         self.update_timer.start(50)  # 20 Hz update rate
+        print("=== Initialization complete ===\n")
 
     def _init_ui(self):
         """Initialize user interface."""
@@ -112,9 +120,11 @@ class MainWindow(QMainWindow):
         right_layout.setContentsMargins(5, 5, 5, 5)
 
         self.control_panel = ControlPanel()
+        print("Connecting control panel signals...")
         self.control_panel.start_clicked.connect(self._on_start)
         self.control_panel.stop_clicked.connect(self._on_stop)
         self.control_panel.analyze_clicked.connect(self._on_analyze)
+        print(f"Start button enabled: {self.control_panel.start_btn.isEnabled()}")
 
         self.metrics_display = MetricsDisplay()
 
@@ -132,6 +142,7 @@ class MainWindow(QMainWindow):
 
     def _on_start(self):
         """Handle start button click."""
+        print("\n>>> START button clicked <<<")
         # Clear previous data
         self.display_buffer.clear()
         self.session_time = []
@@ -165,6 +176,7 @@ class MainWindow(QMainWindow):
 
     def _on_stop(self):
         """Handle stop button click."""
+        print("\n>>> STOP button clicked <<<")
         # Stop acquisition
         self.daq.stop()
         self.control_panel.set_running_state(False)
@@ -174,6 +186,7 @@ class MainWindow(QMainWindow):
 
     def _on_analyze(self):
         """Handle analyze button click - perform post-test analysis."""
+        print("\n>>> ANALYZE button clicked <<<")
         if len(self.session_stress) < 50:
             self.metrics_display.analysis_text.setText("Insufficient data for analysis")
             return
